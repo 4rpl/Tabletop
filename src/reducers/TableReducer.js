@@ -43,10 +43,16 @@ function cards(state = [], action) {
 			
 		case actions.CARD_UP:
 			return state.map((card, _) => {
-				if (card.z >= action.z) {
+				if (card.z === action.z) {
+					return Object.assign({}, card, {
+						z: state.length
+					});
+				} else if (card.z > action.z) {
 					return Object.assign({}, card, {
 						z: card.z - 1
 					});
+				} else {
+					return card;
 				}
 			})
 			
