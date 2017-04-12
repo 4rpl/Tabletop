@@ -12,25 +12,23 @@ const mapStateToProps = function(state) {
 
 const mapDispatchToProps = function(dispatch) {
 	return {
-		onFlipCard: function(id) {
-			dispatch(actions.flipCard(id));
+		onFlipDeck: function(id) {
+			dispatch(actions.flipDeck(id));
 		},
-		onMoveCard: function(id, x, y) {
-			dispatch(actions.moveCard(id, x, y));
+		onMoveDeck: function(id, x, y) {
+			dispatch(actions.moveDeck(id, x, y));
 		},
-		onCardUp: function(z) {
-			dispatch(actions.cardUp(z));
-		},
-		onCardDown: function(x, y, w, h) {
-			dispatch(actions.cardDown(x, y, w, h));
+		onDeckUp: function(z) {
+			dispatch(actions.deckUp(z));
 		}
-	}
+	};
 }
 
-const Card = connect(
+const Deck = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(function({ id, x = 0, y = 0, z = id, h = 142, w = 102, visible = false, contentTop = 'TOP', contentBottom = 'BOTTOM', onFlipCard, onMoveCard, onCardUp }) {
+)(function({ id, x, y, z, h, w, cards, onFlipDeck, onMoveDeck, onDeckUp }) {
+	
 	let mx = 0;
 	let my = 0;
 
@@ -40,19 +38,19 @@ const Card = connect(
 		my = e.clientY - y;
 		document.onmousemove = MouseMove;
 		document.onmouseup = MouseUp;
-		onCardUp(z);
+		onDeckUp(z);
 		return false;
 	}
 
 	function OnContextMenu(e) {
 		e.preventDefault();
-		onFlipCard(id);
+		onFlipDeck(id);
 		return false;
 	}
 
 	function MouseMove(e) {
 		//console.log('Move');
-		onMoveCard(id, e.clientX - mx, e.clientY - my);
+		onMoveDeck(id, e.clientX - mx, e.clientY - my);
 		return false;
 	}
 
@@ -62,16 +60,16 @@ const Card = connect(
 		document.onmouseup = undefined;
 		return false;
 	}
-
+	
 	return (
 		<div
 			style={{top: y, left: x, width: w, height: h, zIndex: z}}
 			onMouseDown={MouseDown}
 			onContextMenu={OnContextMenu}
-			className="card noselect">
-			{visible ? contentTop : contentBottom}
+			className="deck noselect">
+			{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
 		</div>
-	);
+	)
 });
 
-export default Card;
+export default Deck;

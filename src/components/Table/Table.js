@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Card from './Card';
+import Deck from './Deck';
 import '../../resources/style.css';
 import logo from '../../resources/logo.svg';
 
