@@ -21,8 +21,9 @@ const mapDispatchToProps = function(dispatch) {
 		onCardUp: function(z) {
 			dispatch(actions.cardUp(z));
 		},
-		onCardDown: function(x, y, w, h) {
-			dispatch(actions.cardDown(x, y, w, h));
+		onCardDown: function(x, y, h, w) {
+			console.log(x, y);
+			dispatch(actions.cardDown(x, y, h, w));
 		}
 	}
 }
@@ -30,12 +31,13 @@ const mapDispatchToProps = function(dispatch) {
 const Card = connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(function({ id, x = 0, y = 0, z = id, h = 142, w = 102, visible = false, contentTop = 'TOP', contentBottom = 'BOTTOM', onFlipCard, onMoveCard, onCardUp }) {
+)(function({ id, x = 0, y = 0, z = id, h = 142, w = 102, visible = false, contentTop = 'TOP', contentBottom = 'BOTTOM', onFlipCard, onMoveCard, onCardUp, onCardDown }) {
 	let mx = 0;
 	let my = 0;
 
 	function MouseDown(e) {
 		//console.log('Down');
+		console.log('Down', x, y);
 		mx = e.clientX - x;
 		my = e.clientY - y;
 		document.onmousemove = MouseMove;
@@ -52,6 +54,7 @@ const Card = connect(
 
 	function MouseMove(e) {
 		//console.log('Move');
+		console.log('Move', x, y);
 		onMoveCard(id, e.clientX - mx, e.clientY - my);
 		return false;
 	}
@@ -60,8 +63,11 @@ const Card = connect(
 		//console.log('Up');
 		document.onmousemove = undefined;
 		document.onmouseup = undefined;
+		console.log('Up', x, y);
+		onCardDown(x, y, h, w);
 		return false;
 	}
+		console.log('render', x, y);
 
 	return (
 		<div

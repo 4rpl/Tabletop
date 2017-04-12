@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Card from './Card';
-import Deck from './Deck';
 import '../../resources/style.css';
 import logo from '../../resources/logo.svg';
 
@@ -31,6 +30,8 @@ const Table = connect(
 					x={card.x}
 					y={card.y}
 					z={card.z}
+					h={card.h}
+					w={card.w}
 					contentTop={card.contentTop}
 					contentBottom={card.contentBottom}
 					visible={card.visible} />

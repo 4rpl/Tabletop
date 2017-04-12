@@ -16,17 +16,27 @@ import tableReducer from './reducers/TableReducer'
 let store = createStore(tableReducer);
 
 store.dispatch(addCard(
-	1, 0, 0, 102, 142, false,
+	1, 0, 0, 142, 102, false,
 	<img src={top1} alt="top" />,
 	<img src={logo} className="Table-logo" alt="bottom" />
 ));
 store.dispatch(addCard(
-	2, 0, 0, 102, 142, false,
+	4, 0, 0, 142, 102, false,
+	<img src={top1} alt="top" />,
+	<img src={logo} className="Table-logo" alt="bottom" />
+));
+store.dispatch(addCard(
+	2, 0, 0, 142, 102, false,
 	<img src={top2} alt="top" />,
 	<img src={logo} className="Table-logo" alt="bottom" />
 ));
 store.dispatch(addCard(
-	3, 0, 0, 102, 142, false,
+	3, 0, 0, 142, 102, false,
+	<img src={top3} alt="top" />,
+	<img src={logo} className="Table-logo" alt="bottom" />
+));
+store.dispatch(addCard(
+	5, 0, 0, 142, 102, false,
 	<img src={top3} alt="top" />,
 	<img src={logo} className="Table-logo" alt="bottom" />
 ));

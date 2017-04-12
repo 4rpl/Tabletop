@@ -22,8 +22,8 @@ export function addCard(id, x, y, h, w, visible, contentTop, contentBottom) {
 export function cardUp(z) {
 	return { type: CARD_UP, z };
 }
-export function cardDown(x, y, w, h) {
-	return { type: CARD_DOWN, x, y, w, h };
+export function cardDown(x, y, h, w) {
+	return { type: CARD_DOWN, x, y, h, w };
 }
 
 export function flipDeck(id) {

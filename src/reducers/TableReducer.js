@@ -23,10 +23,7 @@ import * as actions from '../actions/TableActions';
 //	cards[]
 //}
 
-const tableReducer = combineReducers({
-	cards: cards,
-	decks: decks
-});
+const tableReducer = table;
 
 function cards(state = [], action) {
 	switch (action.type) {
@@ -139,19 +136,49 @@ function decks(state = [], action) {
 }
 
 function table(state = {}, action) {
-	
 	switch (action.type) {
 		case actions.CARD_DOWN: {
-			let deck = state.cards.filter(function(card) {
-				return
-					card.w === action.w &&
+			let deck = [];
+			let cards = [];
+			for (let i in state.cards) {
+				let card = state.cards[i];
+				let radius = (card.x - action.x)*(card.x - action.x) + (card.y - action.y)*(card.y - action.y);
+				//console.log(card);
+				//console.log(card.w, action.w, card.h, action.h, action.x, action.y, radius);
+				if (card.w === action.w &&
 					card.h === action.h &&
-					card.x * card.x + card.y * card.y <= 10;
-			});
-			return state;
+					radius <= 10) {
+					deck.push(card);
+				} else {
+					cards.push(card);
+				}
+			}
+			console.log(deck.length);
+			if (deck.length > 1) {
+				return Object.assign({}, state, {
+					cards: cards,
+					decks: [
+						...state.decks,
+						{
+							id: state.decks.length,
+							x: cards[0].x,
+							y: cards[0].y,
+							z: state.decks.length,
+							h: cards[0].h,
+							w: cards[0].w,
+							cards: cards
+						}
+					]
+				});
+			} else {
+				return state;
+			}
 		}
 		default: {
-			return state;
+			return {
+				cards: cards(state.cards, action),
+				decks: decks(state.decks, action)
+			};
 		}
 	}
 }
