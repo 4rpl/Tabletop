@@ -57,19 +57,6 @@ body {
 	vertical-align: middle;
 }
 
-.deck {
-	border: 1px solid #999;
-	border-radius: 4px;
-	position: absolute;
-	left: 0;
-	top: 0;
-	cursor: move;
-	width: 102px;
-	height: 142px;
-	background-color: #efefef;
-	transition: box-shadow 0.15s ease-out;
-}
-
 .card:hover {
 	border: 1px solid #fb9;
 }
@@ -82,8 +69,40 @@ body {
 	border-radius: inherit;
 	height: 100%;
 	width: 100%;
-	vertical-align: middle;
 }
+
+.deck {
+	border: 1px solid #999;
+	outline: none;
+	border-right: 3px solid #777;
+	border-bottom: 2px solid #999;
+	border-radius: 4px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	cursor: move;
+	width: 102px;
+	height: 142px;
+	background-color: #efefef;
+	transition: box-shadow 0.15s ease-out;
+}
+
+.deck * {
+	border-radius: inherit;
+	height: 100%;
+	width: 100%;
+}
+
+.deck:hover {
+	border: 1px solid #fb9;
+	border-right: 3px solid #d96;
+	border-bottom: 2px solid #fb9;
+}
+
+.deck:active {
+	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
 
 .noselect * {
 	-webkit-touch-callout: none; /* iOS Safari */
@@ -98,4 +117,19 @@ body {
 
 .noselect img {
 	pointer-events: none;
+}
+
+.deckCardsCounter {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	top: -11px;
+	left: -11px;
+	color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(255, 255, 255, 0.8);
+	font-size: 21px;
+	width: initial;
+    height: initial;
+    padding: 0 6px;
+	width: no;
+	border-radius: 5px;
+	position: absolute;
 }

@@ -7,6 +7,9 @@ export const CARD_DOWN = 'CARD_DOWN';
 export const FLIP_DECK = 'FLIP_DECK';
 export const MOVE_DECK = 'MOVE_DECK';
 export const DECK_UP = 'DECK_UP';
+export const DECK_DOWN = 'DECK_DOWN';
+export const SHUFFLE_DECK = 'SHUFFLE_DECK';
+export const TAKE_TOP_DECK_CARD = 'TAKE_TOP_DECK_CARD';
 
 
 
@@ -16,14 +19,14 @@ export function flipCard(id) {
 export function moveCard(id, x, y) {
 	return { type: MOVE_CARD, id, x, y };
 }
-export function addCard(id, x, y, h, w, visible, contentTop, contentBottom) {
-	return { type: ADD_CARD, id, x, y, h, w, visible, contentTop, contentBottom };
+export function addCard(id, x, y, mx, my, h, w, visible, active, contentTop, contentBottom) {
+	return { type: ADD_CARD, id, x, y, mx, my, h, w, visible, active, contentTop, contentBottom };
 }
-export function cardUp(z) {
-	return { type: CARD_UP, z };
+export function cardUp(mx, my, z) {
+	return { type: CARD_UP, mx, my, z };
 }
-export function cardDown(x, y, h, w) {
-	return { type: CARD_DOWN, x, y, h, w };
+export function cardDown(id, x, y, h, w) {
+	return { type: CARD_DOWN, id, x, y, h, w };
 }
 
 export function flipDeck(id) {
@@ -32,6 +35,15 @@ export function flipDeck(id) {
 export function moveDeck(id, x, y) {
 	return { type: MOVE_DECK, id, x, y };
 }
-export function deckUp(z) {
-	return { type: DECK_UP, z };
+export function deckUp(mx, my, z) {
+	return { type: DECK_UP, mx, my, z };
+}
+export function deckDown(id, x, y, h, w) {
+	return { type: DECK_DOWN, id, x, y, h, w };
+}
+export function shuffleDeck(id) {
+	return { type: SHUFFLE_DECK, id };
+}
+export function takeTopDeckCard(id, mx, my) {
+	return { type: TAKE_TOP_DECK_CARD, id, mx, my };
 }
