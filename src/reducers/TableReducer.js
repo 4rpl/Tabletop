@@ -62,7 +62,7 @@ function cards(state = [], action) {
 						active: true,
 						mx: action.mx,
 						my: action.my,
-						z: state.length
+						z: 100 + state.length
 					});
 				} else if (card.z > action.z) {
 					return Object.assign({}, card, {
@@ -77,12 +77,12 @@ function cards(state = [], action) {
 			return [
 				...state,
 				{
-					id: 			action.id,
+					id: 			guid(),
 					x: 				action.x,
 					y: 				action.y,
 					mx:				action.mx,
 					my:				action.my,
-					z:				action.id,
+					z:				100 + state.length + 1,
 					h: 				action.h,
 					w: 				action.w,
 					active:			action.active,
@@ -146,6 +146,30 @@ function decks(state = [], action) {
 			})
 		}
 		case actions.DECK_DOWN: {
+			// колода может слиться с другой колодой
+			for (let i in state) {
+				let deck = state[i];
+				if (deck.id !== action.id &&
+					deck.w === action.w &&
+					deck.h === action.h &&
+					(deck.x - action.x)*(deck.x - action.x) + (deck.y - action.y)*(deck.y - action.y) <= _radius) {
+					let cards = state.find(function(d) { return d.id === action.id }).cards;
+					return state.filter(function(d) { return d.id !== action.id }).map(function(d) {
+							if (d.id === deck.id) {
+								return Object.assign({}, d, {
+									cards: [
+										...cards,
+										...d.cards
+									]
+								});
+							} else {
+								return d;
+							}
+						});
+				}
+			}
+			
+			// или может ничего не произойти
 			return state.map(function(deck) {
 				if (deck.Id === action.Id) {
 					return Object.assign({}, deck, {
@@ -195,13 +219,24 @@ function table(state = {}, action) {
 				if (deck.w === action.w &&
 					deck.h === action.h &&
 					(deck.x - action.x)*(deck.x - action.x) + (deck.y - action.y)*(deck.y - action.y) <= _radius) {
+					let card = state.cards.find(function(c) { return c.id === action.id });
 					return {
-						cards: state.cards.filter(function(c) { return c.id !== action.id }),
+						cards: state.cards
+							.filter(function(c) { return c.id !== action.id })
+							.map(function(c) {
+								if(c.z > card.z) {
+									return Object.assign({}, c, {
+										z: c.z - 1
+									});
+								} else {
+									return c;
+								}
+							}),
 						decks: state.decks.map(function (d) {
 							if (d.id === deck.id) {
 								return Object.assign({}, d, {
 									cards: [
-										Object.assign({}, state.cards.find(function(c) { return c.id === action.id }), {
+										Object.assign({}, card, {
 											active: false
 										}),
 										...d.cards
@@ -232,11 +267,17 @@ function table(state = {}, action) {
 			}
 			if (newDeck.length > 1) {
 				return Object.assign({}, state, {
-					cards: cards,
+					cards: cards.map(function(card) {
+						return Object.assign({}, card, {
+							z: card.z - newDeck.reduce(function(acc, c) {
+								return c.z < card.z ? acc + 1 : acc;
+							}, 0)
+						});
+					}),
 					decks: [
 						...state.decks,
 						{
-							id: state.decks.length + 1,
+							id: guid(),
 							x: newDeck[0].x,
 							y: newDeck[0].y,
 							z: state.decks.length + 1,
@@ -270,12 +311,13 @@ function table(state = {}, action) {
 					cards: [
 						...state.cards,
 						Object.assign({}, deck.cards[0], {
+							id: guid(),
 							active: true,
 							x: deck.x,
 							y: deck.y,
 							mx: action.mx,
 							my: action.my,
-							z: state.cards.length
+							z: 100 + state.cards.length + 1
 						})
 					],
 					decks: state.decks.map(function(d) {
@@ -293,20 +335,32 @@ function table(state = {}, action) {
 					cards: [
 						...state.cards,
 						Object.assign({}, deck.cards[1], {
+							id: guid(),
 							x: deck.x,
 							y: deck.y,
-							z: state.cards.length
+							z: 100 + state.cards.length + 1
 						}),
 						Object.assign({}, deck.cards[0], {
+							id: guid(),
 							active: true,
 							x: deck.x,
 							y: deck.y,
 							mx: action.mx,
 							my: action.my,
-							z: state.cards.length + 1
+							z: 100 + state.cards.length + 2
 						})
 					],
-					decks: state.decks.filter(function(d) { return d.id !== action.id })
+					decks: state.decks
+						.filter(function(d) { return d.id !== action.id })
+						.map(function(d) {
+							if (d.z > deck.z) {
+								return Object.assign({}, d, {
+									z: d.z - 1
+								});
+							} else {
+								return d;
+							}
+						})
 				}
 			}
 		}
@@ -317,6 +371,15 @@ function table(state = {}, action) {
 			};
 		}
 	}
+}
+
+function guid() {
+	function s4() {
+		return Math.floor((1 + Math.random()) * 0x10000)
+			.toString(16)
+			.substring(1);
+	}
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
 export default tableReducer;

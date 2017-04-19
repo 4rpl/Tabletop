@@ -80,16 +80,37 @@ const Deck = connect(
 		document.onmouseup = MouseUp;
 	}
 	
+	// Shuffle animation
+	//<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}} className="deckAnimaiton deckAnimaitonLeft noselect">
+	//	{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+	//</div>
+	//<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}} className="deckAnimaiton deckAnimaitonRight noselect">
+	//	{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+	//</div>
+	
+	let animation = (
+		<div>
+			<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}}
+				className="deckAnimaiton deckAnimaitonLeft noselect">
+				{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+			</div>
+			<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}} className="deckAnimaiton deckAnimaitonRight noselect">
+				{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+			</div>
+		</div>
+	);
 	return (
-		<div
-			style={{top: y, left: x, width: w, height: h, zIndex: z}}
-			onMouseDown={MouseDown}
-			onKeyDown={OnKeyPress}
-			tabIndex="-1"
-			onContextMenu={OnContextMenu}
-			className="deck noselect">
-			<span className="deckCardsCounter">{cards.length}</span>
-			{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+		<div>
+			{animation}
+			<div style={{top: y, left: x, width: w, height: h, zIndex: z}}
+				onMouseDown={MouseDown}
+				onKeyDown={OnKeyPress}
+				tabIndex="-1"
+				onContextMenu={OnContextMenu}
+				className="deck noselect">
+				<span className="deckCardsCounter">{cards.length}</span>
+				{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
+			</div>
 		</div>
 	);
 });

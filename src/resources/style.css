@@ -9,9 +9,12 @@
 
 .Table-header {
 	background-color: #222;
-	height: 150px;
 	padding: 20px;
 	color: white;
+}
+
+.Table-header p {
+	text-align: left;
 }
 
 body {
@@ -39,7 +42,9 @@ body {
 	width: 102px;
 	height: 142px;
 	background-color: #efefef;
-	transition: box-shadow 0.15s ease-out;
+	transition: all 0.15s ease-out,
+				left 0s ease-out,
+				top 0s ease-out;
 }
 
 .card:hover {
@@ -72,8 +77,8 @@ body {
 }
 
 .deck {
-	border: 1px solid #999;
 	outline: none;
+	border: 1px solid #999;
 	border-right: 3px solid #777;
 	border-bottom: 2px solid #999;
 	border-radius: 4px;
@@ -84,7 +89,9 @@ body {
 	width: 102px;
 	height: 142px;
 	background-color: #efefef;
-	transition: box-shadow 0.15s ease-out;
+	transition: all 0.15s ease-out,
+				left 0s ease-out,
+				top 0s ease-out;
 }
 
 .deck * {
@@ -132,4 +139,40 @@ body {
 	width: no;
 	border-radius: 5px;
 	position: absolute;
+}
+
+.deckAnimaiton {
+	outline: none;
+	border: 1px solid #999;
+	border-radius: 4px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 102px;
+	height: 142px;
+	background-color: #efefef;
+}
+
+.deckAnimaitonLeft {
+	animation: Deck-animaiton-left 1 0.35s ease-in-out;
+}
+
+.deckAnimaitonRight {
+	animation: Deck-animaiton-right 1 0.45s ease-in-out;
+}
+
+.deckAnimaiton * {
+	border-radius: inherit;
+	height: 100%;
+	width: 100%;
+}
+
+@keyframes Deck-animaiton-left {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(180deg); }
+}
+
+@keyframes Deck-animaiton-right {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(180deg); }
 }

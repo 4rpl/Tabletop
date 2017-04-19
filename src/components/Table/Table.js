@@ -62,6 +62,8 @@ const Table = connect(
 			<div className="Table-header">
 				<img src={logo} className="Table-logo" alt="logo" />
 				<h2>Welcome to React</h2>
+				<p>Card: lmb, rmb</p>
+				<p>Deck: lmb, rmb, shift+lmb, focus+r</p>
 			</div>
 			<div className="Table-body">
 				{decks}
