@@ -42,9 +42,7 @@ body {
 	width: 102px;
 	height: 142px;
 	background-color: #efefef;
-	transition: all 0.15s ease-out,
-				left 0s ease-out,
-				top 0s ease-out;
+	transition: box-shadow 0.15s ease-out;
 }
 
 .card:hover {
@@ -89,9 +87,7 @@ body {
 	width: 102px;
 	height: 142px;
 	background-color: #efefef;
-	transition: all 0.15s ease-out,
-				left 0s ease-out,
-				top 0s ease-out;
+	transition: box-shadow 0.15s ease-out;
 }
 
 .deck * {
