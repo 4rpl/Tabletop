@@ -11,6 +11,11 @@ export const DECK_DOWN = 'DECK_DOWN';
 export const SHUFFLE_DECK = 'SHUFFLE_DECK';
 export const TAKE_TOP_DECK_CARD = 'TAKE_TOP_DECK_CARD';
 
+export const TABLE_SCALE = 'TABLE_SCALE';
+export const TABLE_MOVE = 'TABLE_MOVE';
+export const TABLE_MOUSE_DOWN = 'TABLE_MOUSE_DOWN';
+export const TABLE_MOUSE_UP = 'TABLE_MOUSE_UP';
+
 
 
 export function flipCard(id) {
@@ -46,4 +51,17 @@ export function shuffleDeck(id) {
 }
 export function takeTopDeckCard(id, mx, my) {
 	return { type: TAKE_TOP_DECK_CARD, id, mx, my };
+}
+
+export function tableScale(scale) {
+	return { type: TABLE_SCALE, scale };
+}
+export function tableMove(x, y) {
+	return { type: TABLE_MOVE, x, y };
+}
+export function tableMouseDown(mx, my) {
+	return { type: TABLE_MOUSE_DOWN, mx, my };
+}
+export function tableMouseUp() {
+	return { type: TABLE_MOUSE_UP };
 }

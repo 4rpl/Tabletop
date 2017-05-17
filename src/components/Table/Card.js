@@ -35,6 +35,7 @@ const Card = connect(
 	function MouseDown(e) {
 		//console.log('Down', x, y);
 		onCardUp(x - e.clientX, y - e.clientY, z);
+		e.stopPropagation();
 		return false;
 	}
 

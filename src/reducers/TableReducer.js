@@ -2,6 +2,8 @@
 import * as actions from '../actions/TableActions';
 
 const _radius = 300;
+const _minScale = 0.4;
+const _maxScale = 1;
 
 //card : {
 //	id: 0,
@@ -42,7 +44,7 @@ function cards(state = [], action) {
 					})
 					: card;
 			})
-		}	
+		}
 		case actions.MOVE_CARD: {
 			return state.map((card, _) => {
 				if (card.id === action.id) {
@@ -212,6 +214,67 @@ function decks(state = [], action) {
 
 function table(state = {}, action) {
 	switch (action.type) {
+		case actions.TABLE_SCALE: {
+			if(state.table.scale >= _maxScale && action.scale > 0){
+				return state;
+			}
+			if(state.table.scale <= _minScale && action.scale < 0){
+				return state;
+			}
+			return Object.assign({}, state, {
+				table: {
+					...state.table,
+					scale: state.table.scale + action.scale
+				}
+			});
+		}
+		case actions.TABLE_MOUSE_UP: {
+			return Object.assign({}, state, {
+				table: {
+					...state.table,
+					active: false
+				}
+			});
+		}
+		case actions.TABLE_MOUSE_DOWN: {
+			return Object.assign({}, state, {
+				table: {
+					...state.table,
+					active: true,
+					mx: action.mx,
+					my: action.my
+				}
+			});
+		}
+		case actions.TABLE_MOVE: {
+			if( action.x <= -state.table.w / 2 ||
+				action.y <= -state.table.h / 2) {
+				return Object.assign({}, state, {
+					table: {
+						...state.table,
+						x: -state.table.w / 2,
+						y: -state.table.h / 2
+					}
+				});
+			}
+			if( action.x >= state.table.w / 2 ||
+				action.y >= state.table.h / 2) {
+				return Object.assign({}, state, {
+					table: {
+						...state.table,
+						x: action.x,
+						y: action.y
+					}
+				});
+			}
+			return Object.assign({}, state, {
+				table: {
+					...state.table,
+					x: action.x,
+					y: action.y
+				}
+			});
+		}
 		case actions.CARD_DOWN: {
 			// карта может попасть в существующую колоду
 			for (let i in state.decks) {
@@ -221,6 +284,7 @@ function table(state = {}, action) {
 					(deck.x - action.x)*(deck.x - action.x) + (deck.y - action.y)*(deck.y - action.y) <= _radius) {
 					let card = state.cards.find(function(c) { return c.id === action.id });
 					return {
+						table: state.table,
 						cards: state.cards
 							.filter(function(c) { return c.id !== action.id })
 							.map(function(c) {
@@ -308,6 +372,7 @@ function table(state = {}, action) {
 			let deck = state.decks.find(function(d) { return d.id === action.id });
 			if (deck.cards.length > 2) {
 				return {
+					table: state.table,
 					cards: [
 						...state.cards,
 						Object.assign({}, deck.cards[0], {
@@ -332,6 +397,7 @@ function table(state = {}, action) {
 				}
 			} else {
 				return {
+					table: state.table,
 					cards: [
 						...state.cards,
 						Object.assign({}, deck.cards[1], {
@@ -366,6 +432,13 @@ function table(state = {}, action) {
 		}
 		default: {
 			return {
+				table: state.table || {
+					x: 0,
+					y: 0,
+					scale: 1,
+					w: 3000,
+					h: 1600
+				},
 				cards: cards(state.cards, action),
 				decks: decks(state.decks, action)
 			};

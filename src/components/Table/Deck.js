@@ -45,6 +45,7 @@ const Deck = connect(
 		} else {
 			onDeckUp(x - e.clientX, y - e.clientY, z);
 		}
+		e.stopPropagation();
 		return false;
 	}
 
@@ -87,11 +88,9 @@ const Deck = connect(
 	//<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}} className="deckAnimaiton deckAnimaitonRight noselect">
 	//	{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
 	//</div>
-	
 	let animation = (
 		<div>
-			<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}}
-				className="deckAnimaiton deckAnimaitonLeft noselect">
+			<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1, visibility: 'visible'}} className="deckAnimaiton deckAnimaitonLeft noselect">
 				{cards[0].visible ? cards[0].contentTop : cards[0].contentBottom}
 			</div>
 			<div style={{top: y, left: x, width: w, height: h, zIndex: z - 1}} className="deckAnimaiton deckAnimaitonRight noselect">
